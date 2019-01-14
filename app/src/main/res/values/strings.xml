@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">Popular Movies</string>
+    <string name="no_data">No data</string>
+    <string name="poster_image">Poster image</string>
+    <string name="date">date</string>
+    <string name="rating">rating</string>
+    <string name="synopsis">synopsis</string>
+    <string name="trailers">Trailers</string>
+    <string name="reviews">Reviews</string>
+    <string name="no_reviews_available">No reviews available</string>
+    <string name="popular">Popular</string>
+    <string name="top_rated">Top rated</string>
+    <string name="favorites">Favorites</string>
+    <string name="new_year">%1$s</string>
+    <string name="rating_out_of">%1$s/10</string>
+    <string name="no_movies">Currently there are no movies</string>
+    <string name="image_of_movie_poster">image of movie poster</string>
+    <string name="image_of_play_icon">image of play icon</string>
+</resources>
