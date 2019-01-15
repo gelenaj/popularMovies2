@@ -5,7 +5,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.android.popularmoviespart1.R;
@@ -19,7 +18,6 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
     public static final String LOG_TAG = MovieAdapter.class.getSimpleName();
     private List<Movie> movies;
     private OnMoviesClickCallback callback;
-
 
     public MovieAdapter(List<Movie> movies, OnMoviesClickCallback callback) {
         this.movies = movies;
@@ -35,34 +33,36 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
 
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int position) {
-        int adapterPosition = viewHolder.getAdapterPosition();
-
-        //viewHolder.getAdapterPosition(movies.get(adapterPosition));
-        //viewHolder.bind(movies.get(movies.get));
-        viewHolder.bind(movies.get(adapterPosition));
+        Movie movie = getItem(position);
+        viewHolder.bind(movie);
     }
 
+    public Movie getItem(int position) {
+        return movies.get(position);
+    }
     @Override
     public int getItemCount() {
         return movies.size();
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder  {
         ImageView poster;
         Movie movie;
 
-        private ViewHolder(View itemView) {
+
+        private ViewHolder(final View itemView) {
             super(itemView);
             poster = itemView.findViewById(R.id.poster);
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
+
+           itemView.setOnClickListener(new View.OnClickListener() {
+               @Override
                 public void onClick(View v) {
-               callback.onClick(movie);
-                }
+             callback.onClick(movie);
+              }
             });
         }
 
-        private void bind(Movie movie) {
+        private void bind(final Movie movie) {
             this.movie = movie;
             String IMAGE_BASE_URL = "http://image.tmdb.org/t/p/w500";
             Glide.with(itemView)
@@ -71,6 +71,5 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
                     .into(poster);
         }
     }
-
 
 }

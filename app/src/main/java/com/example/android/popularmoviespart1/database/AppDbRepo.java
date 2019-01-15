@@ -38,10 +38,11 @@ public class AppDbRepo {
         return mDb.movieDao().getAll();
     }
 
-    public void insertNewFavMovie(String title, String posterUrl,
+    public void insertNewFavMovie(int id, String title, String posterUrl,
                               String synopsis, String rating, String releaseDate) {
 
        Movie movie = new Movie();
+       movie.setId(id);
        movie.setTitle(title);
        movie.setPoster(posterUrl);
        movie.setSynopsis(synopsis);
@@ -66,4 +67,14 @@ public class AppDbRepo {
     public Movie getMovieById(int movieId) {
         return mDb.movieDao().getMovieById(movieId);
     }
+
+    public void deleteFavMovie(final Movie movie) {
+    executor.execute(new Runnable() {
+        @Override
+        public void run() {
+            mDb.movieDao().deleteFavMovie(movie);
+        }
+    });
+    }
+
 }

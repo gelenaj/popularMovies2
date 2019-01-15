@@ -8,24 +8,21 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.android.popularmoviespart1.R;
 import com.example.android.popularmoviespart1.activities.DetailActivity;
-import com.example.android.popularmoviespart1.activities.MainActivity;
-import com.example.android.popularmoviespart1.api.OnMoviesClickCallback;
 import com.example.android.popularmoviespart1.database.data.Movie;
 
 import java.util.List;
 
 public class FavoritesAdapter extends RecyclerView.Adapter<FavoritesAdapter.ViewHolder> {
     private List<Movie> mMovies;
-    private OnMoviesClickCallback callback;
+    private final Context mContext;
 
-    public FavoritesAdapter(List<Movie> mMovies, OnMoviesClickCallback callback) {
+    public FavoritesAdapter(List<Movie> mMovies, Context mContext) {
         this.mMovies = mMovies;
-        this.callback = callback;
+        this.mContext = mContext;
     }
 
     @NonNull
@@ -37,13 +34,18 @@ public class FavoritesAdapter extends RecyclerView.Adapter<FavoritesAdapter.View
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        //final Movie movie = mMovies.get(position);
+        final Movie movie = mMovies.get(position);
         holder.bind(mMovies.get(position));
-        //holder.bind(movie);
 
-
+        holder.poster.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(mContext, DetailActivity.class);
+                intent.putExtra(DetailActivity.MOVIE_ID, movie.getId());
+                mContext.startActivity(intent);
+            }
+        });
     }
-
 
     @Override
     public int getItemCount() {
@@ -54,20 +56,9 @@ public class FavoritesAdapter extends RecyclerView.Adapter<FavoritesAdapter.View
         ImageView poster;
         Movie movie;
 
-
-
         private ViewHolder(View itemView) {
             super(itemView);
             poster = itemView.findViewById(R.id.poster);
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    int position = getAdapterPosition();
-
-                    callback.onClick(movie);
-
-                }
-            });
 
         }
         private void bind(Movie movie) {

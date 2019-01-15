@@ -51,7 +51,7 @@ public class DetailActivity extends AppCompatActivity {
     private TextView noReviews;
     private FloatingActionButton favBtn;
     private CoordinatorLayout detailsLayout;
-
+    private boolean isFav;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -80,7 +80,6 @@ public class DetailActivity extends AppCompatActivity {
 
         mDetailViewModel = ViewModelProviders.of(this)
                 .get(DetailViewModel.class);
-
         getMovie();
     }
 
@@ -91,9 +90,7 @@ public class DetailActivity extends AppCompatActivity {
 
                 titleTv.setText(movie.getTitle());
                 synopsisTv.setText(movie.getSynopsis());
-
                 yearTv.setText(getString(R.string.new_year, movie.getReleaseDate().substring(0, 4)));
-
                 ratingTv.setText(getString(R.string.rating_out_of, movie.getRating()));
 
                 Glide.with(DetailActivity.this)
@@ -106,12 +103,13 @@ public class DetailActivity extends AppCompatActivity {
                 favBtn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if (mDetailViewModel.saveFavorite(movie.getTitle(), movie.getPoster(), movie.getSynopsis(),
+
+                        if (mDetailViewModel.toggleSaveFavorite(movie.getId(),movie.getTitle(), movie.getPoster(), movie.getSynopsis(),
                                 movie.getRating(), movie.getReleaseDate())) {
                             favBtn.setImageDrawable(getResources().getDrawable(R.drawable.ic_action_play_orange));
                             Snackbar.make(detailsLayout, "Saved", Snackbar.LENGTH_LONG).show();
                         } else {
-                            Snackbar.make(detailsLayout, "Already favorite", Snackbar.LENGTH_LONG).show();
+                            Snackbar.make(detailsLayout, "Deleted from favorites", Snackbar.LENGTH_LONG).show();
                         }
                     }
                 });

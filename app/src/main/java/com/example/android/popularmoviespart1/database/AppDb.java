@@ -8,7 +8,7 @@ import com.example.android.popularmoviespart1.utils.Constants;
 import com.example.android.popularmoviespart1.database.daos.MovieDao;
 import com.example.android.popularmoviespart1.database.data.Movie;
 
-@Database(entities = {Movie.class}, version = 2, exportSchema = false)
+@Database(entities = {Movie.class}, version = 4, exportSchema = false)
 public abstract class AppDb extends RoomDatabase {
     public abstract MovieDao movieDao();
 

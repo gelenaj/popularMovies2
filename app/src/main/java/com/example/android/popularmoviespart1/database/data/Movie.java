@@ -9,7 +9,7 @@ import com.google.gson.annotations.SerializedName;
 @Entity(tableName = "movie")
 public class Movie {
 
-    @PrimaryKey(autoGenerate = true)
+@PrimaryKey
     @SerializedName("id")
     @Expose
     @ColumnInfo(name = "id") int id;
@@ -45,12 +45,12 @@ public class Movie {
     }
 
 
+
+    public void setId(int id) { this.id = id; }
+
     public int getId() {
         return id;
     }
-
-
-    public void setId(int id) { this.id = id; }
 
     public String getTitle() {
         return title;

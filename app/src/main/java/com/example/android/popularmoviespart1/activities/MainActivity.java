@@ -5,19 +5,16 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
-import android.app.ActionBar;
+
 import com.example.android.popularmoviespart1.R;
 import com.example.android.popularmoviespart1.adapters.FavoritesAdapter;
 import com.example.android.popularmoviespart1.adapters.MovieAdapter;
@@ -30,7 +27,7 @@ import com.example.android.popularmoviespart1.viewmodel.MainViewModel;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity  {
+public class MainActivity extends AppCompatActivity {
     private MoviesRepo moviesRepo;
     private ProgressBar mProgressBar;
     private TextView mEmptyStateTextView;
@@ -39,7 +36,6 @@ public class MainActivity extends AppCompatActivity  {
     private String orderBy = "popular";
     private FavoritesAdapter mFavoritesAdapter;
     private List<Movie> movieData = new ArrayList<>();
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,24 +61,21 @@ public class MainActivity extends AppCompatActivity  {
             @Override
             public void onChanged(@Nullable List<Movie> movieList) {
                 movieData.clear();
-
                 movieData.addAll(movieList);
-
-                if (mAdapter != null) {
-                    
-                    mAdapter = new MovieAdapter(movieData, callback);
-                    recyclerView.setAdapter(mAdapter);
+                if (mFavoritesAdapter == null) {
+                    mFavoritesAdapter = new FavoritesAdapter(movieData, MainActivity.this);
+                    recyclerView.setAdapter(mFavoritesAdapter);
                     mProgressBar.setVisibility(View.GONE);
-
-
-
                 } else {
-                    mAdapter.notifyDataSetChanged();
+                    mFavoritesAdapter.notifyDataSetChanged();
+
                 }
 
             }
 
         };
+
+
 
         MainViewModel mViewModel = ViewModelProviders.of(this)
                 .get(MainViewModel.class);
@@ -118,6 +111,7 @@ public class MainActivity extends AppCompatActivity  {
         startActivity(intent);
     }
 
+
 };
 
 @Override
@@ -139,14 +133,15 @@ public class MainActivity extends AppCompatActivity  {
                 getMovies();
                 return true;
             case R.id.navigation_favorites:
+                mAdapter.notifyDataSetChanged();
                 setTitle("My Favorite Movies");
-                getSupportActionBar().setDisplayHomeAsUpEnabled(true);
                initViewModel();
 
                 return true;
         }
         return false;
     }
+
 
 }
 

@@ -24,28 +24,31 @@ public class DetailViewModel extends AndroidViewModel {
         appDbRepo = AppDbRepo.getInstance(getApplication());
     }
 
-    public void loadData(final int noteId) {
+    public void loadData(final int movieId) {
         executor.execute(new Runnable() {
             @Override
             public void run() {
-                Movie note = appDbRepo.getMovieById(noteId);
+                Movie note = appDbRepo.getMovieById(movieId);
                 mLiveMovie.postValue(note);
             }
         });
     }
 
 
-    public boolean saveFavorite(String title, String poster, String synopsis, String rating, String date) {
+    public boolean toggleSaveFavorite(int id, String title, String poster, String synopsis, String rating, String date) {
         Movie movie = appDbRepo.getMovieByTitle(title);
 
             if(movie == null) {
-                appDbRepo.insertNewFavMovie(title, poster, synopsis, rating, date);
+                appDbRepo.insertNewFavMovie(id,title, poster, synopsis, rating, date);
 
                 return true;
             }else{
-
+                appDbRepo.deleteFavMovie(movie);
 
                 return false;
             }
     }
+
+
+
 }
